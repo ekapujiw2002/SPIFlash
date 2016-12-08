@@ -2,10 +2,10 @@
 |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
 |                                                               getAddressEx.ino                                                                |
 |                                                               SPIFlash library                                                                |
-|                                                                   v 2.3.0                                                                     |
+|                                                                   v 2.5.0                                                                     |
 |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
 |                                                                    Marzogh                                                                    |
-|                                                                  04.06.2016                                                                   |
+|                                                                  30.09.2016                                                                   |
 |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
 |                                                                                                                                               |
 |                                  This program shows the method to use the getAddress() function to automate                                   |
@@ -14,10 +14,8 @@
 |                                                                                                                                               |
 |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
 */
-#include<SPI.h>
 #include<SPIFlash.h>
 
-#define CS 4
 #define arrayLen(x) sizeof(x)/sizeof(x[0])
 uint32_t strAddr[3], floatAddr[2], byteAddr[4];
 String testStr[] = {
@@ -32,7 +30,7 @@ byte testByte[] = {
   3, 245, 84, 100
 };
 
-SPIFlash flash(CS);
+SPIFlash flash;
 
 void getAddresses();
 void writeData();
@@ -67,7 +65,7 @@ void getAddresses() {
     Serial.print(" : ");
     Serial.println(byteAddr[i]);
   }
-  
+
   for (uint8_t i = 0; i < arrayLen(floatAddr); i++) {
     floatAddr[i] = flash.getAddress(sizeof(float));
     Serial.print("Float Address ");
@@ -102,7 +100,7 @@ void writeData() {
       Serial.println(floatAddr[i]);
     }
   }
-  
+
   for (uint8_t i = 0; i < arrayLen(strAddr); i++) {
     if (flash.writeStr(strAddr[i], testStr[i])) {
       Serial.print(testStr[i]);
@@ -111,4 +109,3 @@ void writeData() {
     }
   }
 }
-
